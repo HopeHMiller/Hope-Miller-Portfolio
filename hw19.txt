@@ -1,0 +1,91 @@
+use F22_hopemil
+go
+--number 1
+select cityname
+from city
+where CityID in(
+	select CityID
+	from shipment
+	where ShipmentID in(
+		select shipmentid
+		from shipment
+		where custid in(
+			select custid
+			from customer
+			where AnnualRevenue<1500000)))
+			order by CityName asc;
+
+			--results
+			--Anaheim
+			--Baton Rouge
+			--Boston
+			--Colorado
+			--Columbus
+			--Fresno
+			--Honolulu
+			--Little Rock
+
+-- number 2
+select DriverName
+from truck
+where truckid in(
+	select TruckID
+	from shipment
+	where shipweight>1100);
+	--results
+	--Lee Sanchez
+	--Lewis Rowe
+	--Dwayne Arias
+	--Marco Rogers
+
+--number3 
+select custname, AnnualRevenue 
+from customer
+where custid in(
+	select CustID
+	from shipment
+	where shipweight<100);
+
+	--results
+	--Austin Chavez	3424563
+    --Mike Larsen	1948420
+
+-- number4
+select custname, AnnualRevenue 
+from customer
+where custid in(
+	select custid
+	from shipment
+	where truckid in(
+		select truckid
+		from truck
+		where DriverName like 'Ty Mosley'));
+		--Lisa Aguilar	1199961
+		--Vicki Payne	3119159
+
+
+
+--number 5
+select drivername
+from truck
+where truckid in(
+	select truckid
+	from shipment
+	where shipdate IS NULL);
+	--Gerard Drake
+	--Max Peters
+	--Glen Greer
+
+-- number 6
+select custid, custname
+from customer
+where AnnualRevenue >
+	(select avg(AnnualRevenue)
+	from customer);
+	--1	Lydia Lloyd
+	--2	Chester Glover
+	--4	Austin Chavez
+	--6	Valerie Dickerson
+	--8	Vicki Payne
+	--10 Allison Hoffman
+	--13 Angelina Walker
